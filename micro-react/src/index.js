@@ -36,7 +36,6 @@ window.customElements.define('react-comp', class ReactApp extends HTMLElement {
     this.sub = window.EventBus.on('test_event', (e) => {
       console.log('55event')
       if (e) {
-        window.alert(e)
       }
     })
     try {

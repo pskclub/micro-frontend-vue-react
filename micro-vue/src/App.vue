@@ -12,10 +12,16 @@ export default {
   name: 'app',
   data : function(){
     return {
-      msg : this.$parent.message
+      msg : '',
+      sub:  null
     }
   },
   props: ['message'],
+  created: function(){
+   this.sub =  window.EventBus.on('text', (e) => {
+      this.msg = e
+    })
+  },
   updated: function(){
     window.console.log(55555,this.$parent.message)
   },

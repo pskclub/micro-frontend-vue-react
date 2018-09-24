@@ -2,11 +2,24 @@ import React, { Component } from 'react'
 import { styles } from './css'
 
 class App extends Component {
+  state = {
+    input : ''
+  }
+
+  onChange = (e)=> {
+    this.setState({
+      input : e.target.value
+    })
+    console.log("send", e.target.value)
+    window.EventBus.publish("text", e.target.value)
+  }
   render () {
     const arr = decodeURIComponent(this.props.title) || []
     return (
       <div>
         <style type="text/css">{styles}</style>
+        <input type="text" onChange={this.onChange} value={this.state.input}/>
+        <button type='button' onClick={()=> window.EventBus.publish("test_event", "kuy")}>click</button>
         <section className="todoapp">
           <div data-reactid=".0">
             <header className="header" data-reactid=".0.0"><h1 data-reactid=".0.0.0">todos</h1><input

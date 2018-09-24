@@ -29,26 +29,10 @@ window.customElements.define('vue-comp', class ReactApp extends HTMLElement {
 
   constructor () {
     super()
-    window.console.log('ReactApp constructor', this)
+    window.console.log('vue constructor', this)
   }
 
   connectedCallback () {
-    this.sub = window.EventBus.on('test_event', (e) => {
-      window.console.log('55event',e)
-      if (e) {
-        this.shadowRoot.innerHTML = ''
-        const mountPoint = document.createElement('div')
-        this.shadowRoot.appendChild(mountPoint)
-        Vue.config.productionTip = false
-
-        new Vue({
-          data: {
-            message: e
-          },
-          render: h => h(App)
-        }).$mount(mountPoint)
-      }
-    })
     try {
       if (this.errorMode) {
         throw new Error('Application failed at load')
@@ -58,7 +42,7 @@ window.customElements.define('vue-comp', class ReactApp extends HTMLElement {
       return
     }
 
-    window.console.log('ReactApp connected')
+    window.console.log('vue connected')
 
     this.render()
   }
@@ -92,11 +76,11 @@ window.customElements.define('vue-comp', class ReactApp extends HTMLElement {
 
   disconnectedCallback () {
     this.sub()
-    window.console.log('ReactApp disconnected')
+    window.console.log('vue disconnected')
   }
 
   attributeChangedCallback (attrName, oldVal, newVal) {
-    window.console.log('ReactApp attributeChanged', attrName, oldVal, newVal)
+    window.console.log('vue attributeChanged', attrName, oldVal, newVal)
 
     switch (attrName) {
       case 'title':
