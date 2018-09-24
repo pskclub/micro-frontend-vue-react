@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <link rel="icon" href="<%= BASE_URL %>favicon.ico">
+    <script src="https://unpkg.com/@webcomponents/webcomponentsjs@2.0.0/custom-elements-es5-adapter.js"></script>
+    <title>React App</title>
+    <script type="text/javascript" src="http://localhost:3000/static/js/bundle.js"></script>
+
+    <script>
+    var slice = [].slice
+
+    function EventStream () {
+      if (!(this instanceof EventStream)) {
+        return new EventStream()
+      }
+
+      this.nextSubscriptionIndex = 0
+      this.callbacks = {}
+    }
+
+    EventStream.prototype.unregisterAllCallbacks = function unregisterAllCallbacks () {
+      this.callbacks = {}
+    }
+
+    EventStream.prototype.on = function on (event, callback) {
+      if (!this.callbacks[event]) {
+        this.callbacks[event] = []
+      }
+
+      this.callbacks[event].push({
+        subscription: callback,
+        index: this.nextSubscriptionIndex
+      })
+
+      var currentIndex = this.nextSubscriptionIndex
+      var that = this
+      this.nextSubscriptionIndex += 1
+
+      return function () {
+        that.callbacks[event] = that.callbacks[event].filter(function (callback) {
+          return callback.index !== currentIndex
+        })
+      }
+    }
+
+    EventStream.prototype.publish = function publish () {
+      var event = arguments[0]
+      var args = arguments.length >= 2 ? slice.call(arguments, 1) : []
+      if (this.callbacks && this.callbacks[event]) {
+        this.callbacks[event].forEach(function (callback) {
+          callback.subscription.apply(null, args)
+        })
+      }
+    }
+
+    var EventBus = new EventStream();
+    </script>
+  </head>
+  <body>
+    <noscript>
+      <strong>We're sorry but micro-vue doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
+    </noscript>
+    <vue-comp title="dasdsa"></vue-comp>
+    <!-- built files will be auto injected -->
+  </body>
+</html>
