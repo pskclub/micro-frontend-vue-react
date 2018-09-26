@@ -14,12 +14,13 @@ class App extends Component {
   componentDidMount () {
     this.subAddList = window.EventBus.on('add_list', this.onAdd)
     this.subSearchList = window.EventBus.on('search_list', this.onSearch)
-    this.subSearchList = window.EventBus.on('remove_list', this.onDel)
+    this.subDelList = window.EventBus.on('remove_list', this.onDel)
   }
 
   componentWillUnmount () {
     this.subAddList()
     this.subSearchList()
+    this.subDelList()
   }
 
   onAdd = (value) => {
