@@ -63,7 +63,6 @@ window.customElements.define('input-comp', class ReactApp extends HTMLElement {
   }
 
   disconnectedCallback () {
-    this.sub()
     window.console.log('input disconnected')
   }
 
