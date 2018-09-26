@@ -2,13 +2,13 @@ import { render } from 'react-dom'
 import App from './App'
 import React from 'react'
 
-window.customElements.define('react-comp', class ReactApp extends HTMLElement {
+window.customElements.define('list-comp', class ReactApp extends HTMLElement {
   static get observedAttributes () {
-    return ['error-mode', 'title']
+    return ['error-mode', 'list']
   }
 
-  getTitle () {
-    return this.getAttribute('title')
+  getList () {
+    return this.getAttribute('list')
   }
 
   get errorMode () {
@@ -29,15 +29,10 @@ window.customElements.define('react-comp', class ReactApp extends HTMLElement {
 
   constructor () {
     super()
-    console.log('ReactApp constructor', this)
+    console.log('list constructor', this)
   }
 
   connectedCallback () {
-    this.sub = window.EventBus.on('test_event', (e) => {
-      console.log('55event')
-      if (e) {
-      }
-    })
     try {
       if (this.errorMode) {
         throw new Error('Application failed at load')
@@ -47,31 +42,29 @@ window.customElements.define('react-comp', class ReactApp extends HTMLElement {
       return
     }
 
-    console.log('ReactApp connected')
-
+    console.log('list connected')
     this.render()
   }
 
   render () {
     if (this.shadowRoot) {
-      render(<App title={this.title}/>, this.shadowRoot)
+      render(<App list={this.getList()}/>, this.shadowRoot)
     } else {
       const mountPoint = document.createElement('div')
       this.attachShadow({mode: 'open'}).appendChild(mountPoint)
-      render(<App title={this.title}/>, mountPoint)
+      render(<App list={this.getList()}/>, mountPoint)
     }
   }
 
   disconnectedCallback () {
     this.sub()
-    console.log('ReactApp disconnected')
+    console.log('list disconnected')
   }
 
   attributeChangedCallback (attrName, oldVal, newVal) {
-    console.log('ReactApp attributeChanged', attrName, oldVal, newVal)
-
+    console.log('list attributeChanged', attrName, oldVal, newVal)
     switch (attrName) {
-      case 'title':
+      case 'list':
         this.render()
     }
   }

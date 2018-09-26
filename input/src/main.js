@@ -2,15 +2,10 @@ import Vue from 'vue'
 import App from './App.vue'
 
 
-window.customElements.define('vue-comp', class ReactApp extends HTMLElement {
+window.customElements.define('input-comp', class ReactApp extends HTMLElement {
   static get observedAttributes () {
-    return ['error-mode', 'title']
+    return ['error-mode']
   }
-
-  getTitle () {
-    return this.getAttribute('title')
-  }
-
   get errorMode () {
     return this.hasAttribute('error-mode')
   }
@@ -29,7 +24,7 @@ window.customElements.define('vue-comp', class ReactApp extends HTMLElement {
 
   constructor () {
     super()
-    window.console.log('vue constructor', this)
+    window.console.log('input constructor', this)
   }
 
   connectedCallback () {
@@ -42,22 +37,18 @@ window.customElements.define('vue-comp', class ReactApp extends HTMLElement {
       return
     }
 
-    window.console.log('vue connected')
+    window.console.log('input connected')
 
     this.render()
   }
 
-  render (msg = '4165465465') {
+  render () {
     if (this.shadowRoot) {
       this.shadowRoot.innerHTML = ''
       const mountPoint = document.createElement('div')
       this.shadowRoot.appendChild(mountPoint)
       Vue.config.productionTip = false
-      window.console.log(111,msg)
       new Vue({
-        data: {
-          message: this.getTitle()
-        },
         render: h => h(App)
       }).$mount(mountPoint)
     } else {
@@ -66,9 +57,6 @@ window.customElements.define('vue-comp', class ReactApp extends HTMLElement {
       Vue.config.productionTip = false
 
       new Vue({
-        data: {
-          message: this.getTitle()
-        },
         render: h => h(App)
       }).$mount(mountPoint)
     }
@@ -76,16 +64,11 @@ window.customElements.define('vue-comp', class ReactApp extends HTMLElement {
 
   disconnectedCallback () {
     this.sub()
-    window.console.log('vue disconnected')
+    window.console.log('input disconnected')
   }
 
   attributeChangedCallback (attrName, oldVal, newVal) {
-    window.console.log('vue attributeChanged', attrName, oldVal, newVal)
-
-    switch (attrName) {
-      case 'title':
-        this.render()
-    }
+    window.console.log('input attributeChanged', attrName, oldVal, newVal)
   }
 })
 
