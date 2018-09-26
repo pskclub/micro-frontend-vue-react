@@ -4,14 +4,30 @@
   <meta charset="UTF-8">
   <title>Micro frontend</title>
   <script src="https://unpkg.com/@webcomponents/webcomponentsjs@2.0.0/custom-elements-es5-adapter.js"></script>
-  <script src="event-bus.js"></script>
+  <script src="event-bus.js">
+
+  encodeURIComponent(JSON.stringify(["hello","My name is long"]))
+
+
+  </script>
 </head>
 <body>
+
+
+
 <input-comp></input-comp>
 <search-comp></search-comp>
+
+
+
+
 <list-comp list="%5B%22hello%22%2C%22My%20name%20is%20long%22%5D"></list-comp>
+
+
+
 <script type="text/javascript" src="http://localhost:3001/static/js/bundle.js"></script>
 <script type="text/javascript" src="http://localhost:3002/static/js/bundle.js"></script>
 <script type="text/javascript" src="http://localhost:3003/app.js"></script>
 </body>
 </html>
+

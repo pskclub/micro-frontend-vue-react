@@ -14,6 +14,7 @@ class App extends Component {
   componentDidMount () {
     this.subAddList = window.EventBus.on('add_list', this.onAdd)
     this.subSearchList = window.EventBus.on('search_list', this.onSearch)
+    this.subSearchList = window.EventBus.on('remove_list', this.onDel)
   }
 
   componentWillUnmount () {
@@ -36,6 +37,18 @@ class App extends Component {
     })
   }
 
+  onDel = (index) => {
+    const newList = this.state.list
+    this.state.list.splice(index, 1)
+    this.setState({
+      list: newList
+    })
+  }
+
+  sendDel = (index) => {
+    window.EventBus.publish('remove_list', index)
+  }
+
   render () {
     const {list, search} = this.state
     const finalList = search ? list.filter(v => v.search(search) !== -1) : list
@@ -43,7 +56,8 @@ class App extends Component {
       <div style={styles}>
         <h1>List (React)</h1>
         <ul>
-          {finalList.map((v, i) => <li key={i}>{v}</li>)}
+          {finalList.map((v, i) => <li key={i}>{v}
+            <span style={{color: 'red', cursor: 'pointer'}} onClick={() => this.sendDel(i)}>(X)</span></li>)}
         </ul>
       </div>
     )
