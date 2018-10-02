@@ -40,7 +40,7 @@ class App extends Component {
 
   onDel = (index) => {
     const newList = this.state.list
-    this.state.list.splice(index, 1)
+    newList.splice(index, 1)
     this.setState({
       list: newList
     })
