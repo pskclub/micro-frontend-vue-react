@@ -3,12 +3,6 @@ import React, { Component } from 'react'
 const styles = {backgroundColor: '#222222', padding: 20, color: 'white'}
 
 class App extends Component {
-  constructor (props) {
-    super()
-    this.state = {
-      list: props.list ? props.list : []
-    }
-  }
 
   sendDel = (index) => {
     setTimeout(() => {
@@ -17,9 +11,8 @@ class App extends Component {
   }
 
   render () {
-    const {list} = this.state
-    const finalList = this.props.search ? list.filter(v => v.search(this.props.search) !== -1) : list
-    console.log(finalList)
+    const {list, search} = this.props
+    const finalList = search ? list.filter(v => v.search(search) !== -1) : list
     return (
       <div style={styles}>
         <h1>List (React)</h1>
