@@ -8,6 +8,10 @@ window.customElements.define('search-comp', class ReactApp extends HTMLElement {
     return ['error-mode']
   }
 
+  getSearch () {
+    return window._state.search
+  }
+
   get errorMode () {
     return this.hasAttribute('error-mode')
   }
@@ -26,6 +30,9 @@ window.customElements.define('search-comp', class ReactApp extends HTMLElement {
 
   constructor () {
     super()
+    window.mobx.autorun(() => {
+      this.render()
+    })
     console.log('search constructor', this)
   }
 
@@ -46,11 +53,11 @@ window.customElements.define('search-comp', class ReactApp extends HTMLElement {
 
   render () {
     if (this.shadowRoot) {
-      render(<App/>, this.shadowRoot)
+      render(<App search={this.getSearch()}/>, this.shadowRoot)
     } else {
       const mountPoint = document.createElement('div')
       this.attachShadow({mode: 'open'}).appendChild(mountPoint)
-      render(<App/>, mountPoint)
+      render(<App search={this.getSearch()}/>, mountPoint)
       retargetEvents(this.shadowRoot)
     }
   }

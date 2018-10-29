@@ -6,53 +6,20 @@ class App extends Component {
   constructor (props) {
     super()
     this.state = {
-      search: '',
-      list: props.list ? JSON.parse(decodeURIComponent(props.list)) : []
+      list: props.list ? props.list : []
     }
   }
 
-  componentDidMount () {
-    this.subAddList = window.EventBus.on('add_list', this.onAdd)
-    this.subSearchList = window.EventBus.on('search_list', this.onSearch)
-    this.subDelList = window.EventBus.on('remove_list', this.onDel)
-  }
-
-  componentWillUnmount () {
-    this.subAddList()
-    this.subSearchList()
-    this.subDelList()
-  }
-
-  onAdd = (value) => {
-    this.setState({
-      list: [
-        ...this.state.list,
-        value
-      ]
-    })
-  }
-
-  onSearch = (value) => {
-    this.setState({
-      search: value
-    })
-  }
-
-  onDel = (index) => {
-    const newList = this.state.list
-    newList.splice(index, 1)
-    this.setState({
-      list: newList
-    })
-  }
-
   sendDel = (index) => {
-    window.EventBus.publish('remove_list', index)
+    setTimeout(() => {
+      window._state.remove(index)
+    }, 1)
   }
 
   render () {
-    const {list, search} = this.state
-    const finalList = search ? list.filter(v => v.search(search) !== -1) : list
+    const {list} = this.state
+    const finalList = this.props.search ? list.filter(v => v.search(this.props.search) !== -1) : list
+    console.log(finalList)
     return (
       <div style={styles}>
         <h1>List (React)</h1>

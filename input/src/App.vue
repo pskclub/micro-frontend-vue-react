@@ -1,7 +1,7 @@
 <template>
   <div style="background-color: #00C180;padding: 20px;color:white">
     <h1>Input (VueJS)</h1>
-    <input type="text" @keyup.enter="onAdd"  v-model="text">
+    <input type="text" @keyup.enter="onAdd" v-model="text">
     <button @click="onAdd">Add</button>
   </div>
 </template>
@@ -15,7 +15,7 @@ export default {
   },
   methods: {
     onAdd: function () {
-      EventBus.publish('add_list', this.text)
+      window._state.add(this.text)
       this.text = ''
     }
   }

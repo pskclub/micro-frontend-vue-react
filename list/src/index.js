@@ -8,7 +8,11 @@ window.customElements.define('list-comp', class ReactApp extends HTMLElement {
   }
 
   getList () {
-    return this.getAttribute('list')
+    return window._state.todos
+  }
+
+  getSearch () {
+    return window._state.search
   }
 
   get errorMode () {
@@ -29,6 +33,10 @@ window.customElements.define('list-comp', class ReactApp extends HTMLElement {
 
   constructor () {
     super()
+    window.mobx.autorun(() => {
+      this.render()
+    })
+
     console.log('list constructor', this)
   }
 
@@ -48,11 +56,11 @@ window.customElements.define('list-comp', class ReactApp extends HTMLElement {
 
   render () {
     if (this.shadowRoot) {
-      render(<App list={this.getList()}/>, this.shadowRoot)
+      render(<App search={this.getSearch()} list={this.getList()}/>, this.shadowRoot)
     } else {
       const mountPoint = document.createElement('div')
       this.attachShadow({mode: 'open'}).appendChild(mountPoint)
-      render(<App list={this.getList()}/>, mountPoint)
+      render(<App search={this.getSearch()} list={this.getList()}/>, mountPoint)
     }
   }
 
@@ -63,10 +71,6 @@ window.customElements.define('list-comp', class ReactApp extends HTMLElement {
 
   attributeChangedCallback (attrName, oldVal, newVal) {
     console.log('list attributeChanged', attrName, oldVal, newVal)
-    switch (attrName) {
-      case 'list':
-        this.render()
-    }
   }
 })
 

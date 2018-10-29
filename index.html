@@ -4,16 +4,33 @@
   <meta charset="UTF-8">
   <title>Micro frontend</title>
   <script src="https://unpkg.com/@webcomponents/webcomponentsjs@2.0.0/custom-elements-es5-adapter.js"></script>
-  <script src="event-bus.js"> </script>
+  <script src="https://unpkg.com/mobx@3.1.2/lib/mobx.umd.min.js"></script>
+  <script src="event-bus.js"></script>
+  <script>
+  mobx.useStrict(false)
+  var _state = mobx.observable({
+    search: '',
+    todos: ['test', 'test2'],
+    remove: mobx.action(function remove (index) {
+      const newList = this.todos
+      newList.splice(index, 1)
+      this.todos = newList
+    }),
+    add: mobx.action(function add (txt) {
+      this.todos.push(txt)
+    }),
+    setSearch: mobx.action(function search (txt) {
+      this.search = txt
+    })
+  })
+  </script>
 </head>
 <body>
 
 
-
 <input-comp></input-comp>
 <search-comp></search-comp>
-<list-comp list="%5B%22hello%22%2C%22My%20name%20is%20long%22%5D"></list-comp>
-
+<list-comp></list-comp>
 
 
 <script type="text/javascript" src="http://localhost:3001/static/js/bundle.js"></script>
