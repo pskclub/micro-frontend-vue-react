@@ -7,7 +7,25 @@
     <link rel="icon" href="<%= BASE_URL %>favicon.ico">
     <script src="https://unpkg.com/@webcomponents/webcomponentsjs@2.0.0/custom-elements-es5-adapter.js"></script>
     <title>input App</title>
-
+    <script src="https://unpkg.com/mobx@3.1.2/lib/mobx.umd.min.js"></script>
+    <script>
+    mobx.useStrict(false)
+    var _state = mobx.observable({
+      search: '',
+      todos: ['test', 'test2'],
+      remove: mobx.action(function remove (index) {
+        const newList = this.todos
+        newList.splice(index, 1)
+        this.todos = newList
+      }),
+      add: mobx.action(function add (txt) {
+        this.todos.push(txt)
+      }),
+      setSearch: mobx.action(function search (txt) {
+        this.search = txt
+      })
+    })
+    </script>
     <script>
     var slice = [].slice
 
